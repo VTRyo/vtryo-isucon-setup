@@ -1,0 +1,33 @@
+[Unit]
+Description=calyptia-fluentd: Fluentd based data collector for Calyptia Services
+Documentation=https://docs.fluentd.org/
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+#User=calyptia-fluentd
+#Group=calyptia-fluentd
+User=root
+Group=root
+LimitNOFILE=65536
+Environment=LD_PRELOAD=/opt/calyptia-fluentd/lib/libjemalloc.so
+Environment=GEM_HOME=/opt/calyptia-fluentd/lib/ruby/gems/3.0.0/
+Environment=GEM_PATH=/opt/calyptia-fluentd/lib/ruby/gems/3.0.0/
+Environment=FLUENT_CONF=/etc/calyptia-fluentd/calyptia-fluentd.conf
+Environment=FLUENT_PLUGIN=/etc/calyptia-fluentd/plugin
+Environment=FLUENT_SOCKET=/var/run/calyptia-fluentd/calyptia-fluentd.sock
+Environment=CALYPTIA_FLUENTD_LOG_FILE=/var/log/calyptia-fluentd/calyptia-fluentd.log
+Environment=CALYPTIA_FLUENTD_OPTIONS=
+EnvironmentFile=-/etc/default/calyptia-fluentd
+PIDFile=/var/run/calyptia-fluentd/calyptia-fluentd.pid
+RuntimeDirectory=calyptia-fluentd
+Type=forking
+# XXX: Fix fluentd executables path
+ExecStart=/opt/calyptia-fluentd/bin/fluentd --log $CALYPTIA_FLUENTD_LOG_FILE --daemon /var/run/calyptia-fluentd/calyptia-fluentd.pid $CALYPTIA_FLUENTD_OPTIONS
+ExecStop=/bin/kill -TERM ${MAINPID}
+ExecReload=/bin/kill -HUP ${MAINPID}
+Restart=always
+TimeoutStopSec=120
+
+[Install]
+WantedBy=multi-user.target
