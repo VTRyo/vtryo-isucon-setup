@@ -24,6 +24,9 @@ function install_fluentd () {
   # see: https://docs.fluentd.org/installation/install-by-deb#step-1-install-from-apt-repository-1
   # ubuntu 20.04
   curl -fsSL https://calyptia-fluentd.s3.us-east-2.amazonaws.com/calyptia-fluentd-1-ubuntu-focal.sh | sh
+
+  sudo /opt/calyptia-fluentd/bin/fluent-gem install fluent-plugin-s3
+  sudo  /opt/calyptia-fluentd/bin/fluent-gem install fluent-plugin-elasticsearch
 }
 
 function install_htop () {
@@ -56,6 +59,6 @@ sudo cp ../files/mysql/my.cnf /etc/mysql/my.cnf
 
 sudo /etc/calyptia-fluentd/calyptia-fluentd.conf /etc/calyptia-fluentd/calyptia-fluentd.conf.org
 sudo cp ../files/fluentd/calyptia-fluentd.conf /etc/calyptia-fluentd/calyptia-fluentd.conf
-
+sudo cp ../files/fluentd/calyptia-fluent.service /usr/lib/systemd/system/calyptia-fluent.service
 # setup slack notify
 install_slackcat
