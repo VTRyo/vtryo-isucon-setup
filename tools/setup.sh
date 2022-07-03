@@ -12,6 +12,7 @@ function install_alp () {
   unzip alp_linux_amd64.zip
   mv alp /usr/local/bin/
 }
+
 function install_pt-query-digest () {
   wget https://github.com/percona/percona-toolkit/archive/3.0.5-test.tar.gz
   tar zxvf 3.0.5-test.tar.gz
@@ -19,12 +20,12 @@ function install_pt-query-digest () {
   sudo mv ./percona-toolkit-3.0.5-test/bin/pt-query-digest /usr/local/bin/pt-query-digest
 }
 
-# rack-profilerで十分かも
-# function install_myprofiler () {
-#   wget https://github.com/KLab/myprofiler/releases/download/0.2/myprofiler.linux_amd64.tar.gz
-#   tar xf myprofiler.linux_amd64.tar.gz
-#   sudo mv myprofiler /usr/local/bin/
-# }
+function install_fluentd () {
+  # see: https://docs.fluentd.org/installation/install-by-deb#step-1-install-from-apt-repository-1
+  # ubuntu 20.04
+  curl -fsSL https://calyptia-fluentd.s3.us-east-2.amazonaws.com/calyptia-fluentd-1-ubuntu-focal.sh | sh
+}
+
 function install_htop () {
   sudo apt-get install htop
 }
@@ -40,9 +41,11 @@ sudo apt-get update -y
 sudo apt-get remove -y nano
 
 # install profiler
-
 install_alp
 install_pt-query-digest
+
+# install fluentd
+install_fluentd
 
 # setup config
 sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.org
@@ -50,6 +53,9 @@ sudo cp ../files/nginx/custom.conf /etc/nginx/nginx.conf
 
 sudo cp /etc/mysql/my.cnf /etc/mysql/my.cnf.org
 sudo cp ../files/mysql/my.cnf /etc/mysql/my.cnf
+
+sudo /etc/calyptia-fluentd/calyptia-fluentd.conf /etc/calyptia-fluentd/calyptia-fluentd.conf.org
+sudo cp ../files/fluentd/calyptia-fluentd.conf /etc/calyptia-fluentd/calyptia-fluentd.conf
 
 # setup slack notify
 install_slackcat
