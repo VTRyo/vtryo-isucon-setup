@@ -41,6 +41,29 @@ function exist_file_check () {
   echo
 fi
 }
+
+function set_git () {
+  touch ~/.ssh/authorized_keys
+  cp tools/files/ssh_config ~/.ssh/config
+
+  sudo chmod 0600 ~/.ssh/config
+  sudo chmod 0600 ~/.ssh/authorized_keys
+}
+
+function set_nginx_conf () {
+  sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.org
+  sudo cp tools/files/nginx/nginx.conf /etc/nginx/nginx.conf
+}
+
+function set_mysql_conf () {
+  sudo cp /etc/mysql/my.cnf /etc/mysql/my.cnf.org
+  sudo cp tools/files/mysql/my.cnf /etc/mysql/my.cnf
+}
+
+function set_netdata_conf () {
+  sudo cp tools/files/netdata/netdata.conf /etc/netdata/netdata.conf
+}
+
 # read envrionment
 source ./.env
 
@@ -75,23 +98,20 @@ echo "===================================================="
 echo "install netdata! You can see the OS metrics visually"
 echo "===================================================="
 
-
 # setup config
-sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.org
-sudo cp tools/files/nginx/nginx.conf /etc/nginx/nginx.conf
+set_nginx_conf
 
 echo "=================="
 echo "Copy nginx config!"
 echo "=================="
 
-sudo cp /etc/mysql/my.cnf /etc/mysql/my.cnf.org
-sudo cp tools/files/mysql/my.cnf /etc/mysql/my.cnf
+set_mysql_conf
 
 echo "==================="
 echo "Copy mysqld config!"
 echo "==================="
 
-sudo cp tools/files/netdata/netdata.conf /etc/netdata/netdata.conf
+set_netdata_conf
 
 echo "======================================================================="
 echo "Copy netdata config! -> You can access Dashboad. http://`hostname -I`:19999"
@@ -111,8 +131,6 @@ install_slackcat
 echo "======================================="
 echo "install slackcat!"
 echo "======================================="
-echo "please exec \"slackcat --configure\""
-echo "======================================="
 
 echo "-- finish setup! --"
 
@@ -131,3 +149,8 @@ if [ ! -e /etc/netdata/netdata.conf ]; then
 fi
 
 echo "End file check."
+
+echo "---------------------------- Next Run command! --------------------------------------"
+echo "\"slackcat --configure\""
+echo "\"ssh-keygen -t rsa\" You have to register that your ssh-keygen's key on github repo!"
+echo "-------------------------------------------------------------------------------------"

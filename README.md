@@ -9,6 +9,17 @@ sudo -i -u isucon
 git clone https://github.com/VTRyo/vtryo-isucon-setup
 ```
 
+- tools/env.sampleのコピー
+
+slack通知用の環境変数が記載されている。
+ワークスペース名とslack bot tokenを記入する必要がある。
+
+他にもあれば追加してよし。
+
+```
+cp tools/env.sample tools/.env
+```
+
 - tools/setup.shに情報を追加する
 
 DB情報やサービス情報を読み取り、setup.shに入力する。

@@ -1,0 +1,5 @@
+default_team = $SLACK_WORK_SPACE
+default_channel = $SLACK_CHANNEL
+
+[teams]
+  $SLACK_WORK_SPACE = $SLACK_TOKEN
