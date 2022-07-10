@@ -37,7 +37,9 @@ ruby-log:
 nginx-log:
 	sudo cat $(NGX_LOG) alp ltsv | tee "./tools/alp.log"
 	./tools/send_text_slack.sh ./tools/alp.log
+	git commit --allow-empty -m "result: `cat ./tools/alp.log`"
 
 slow-log:
 	sudo pt-query-digest $(MYSQL_LOG) | tee ./tools/slow.log
 	./tools/send_file_slack.sh ./tools/slow.log
+	git commit --allow-empty -m "result: `cat ./tools/slow.log`"
