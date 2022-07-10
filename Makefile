@@ -5,7 +5,7 @@ DB_USER:=
 DB_PASS:=
 DB_NAME:=
 RUBY_SERV:=
-
+BENCH_CMD:=./bench -all-addresses 127.0.0.11 -target 127.0.0.11:443 -tls -jia-service-url http://127.0.0.1:4999 > /var/log/isucon/my-bench.txt
 
 MYSQL_CMD:=mysql -h$(DB_HOST) -P$(DB_PORT) -u$(DB_USER) -p$(DB_PASS) $(DB_NAME)
 
@@ -16,6 +16,13 @@ MYSQL_LOG:=/var/log/slow.log
 
 setup:
 	./tools/setup.sh
+
+bench:
+	$(MAKE) restart
+	$(MAKE) clean-log
+	$(MAKE) bench
+	$(MAKE) nginx-log
+	$(MAKE) slow-log
 
 base-profile:
 	./tools/serverinfo.sh
@@ -29,6 +36,9 @@ restart:
 clean-log:
 	sudo truncate $(NGX_LOG) --size 0
 	sudo truncate $(MYSQL_LOG) --size 0
+
+bench:
+	$(BENCH_CMD)
 
 # /etc/systemd/systemにあるruby系serviceを指定する
 ruby-log:
