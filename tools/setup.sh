@@ -33,7 +33,11 @@ function install_htop () {
   sudo apt-get install htop
 }
 
-# read environment
+function install_netdata() {
+  sudo apt install netdata
+}
+
+# read envrionment
 source ./.env
 
 # make directory
@@ -46,9 +50,7 @@ sudo apt-get remove -y nano
 # install profiler
 install_alp
 install_pt-query-digest
-
-# install fluentd
-install_fluentd
+install_netdata
 
 # setup config
 sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.org
@@ -57,8 +59,12 @@ sudo cp ../files/nginx/custom.conf /etc/nginx/nginx.conf
 sudo cp /etc/mysql/my.cnf /etc/mysql/my.cnf.org
 sudo cp ../files/mysql/my.cnf /etc/mysql/my.cnf
 
-sudo /etc/calyptia-fluentd/calyptia-fluentd.conf /etc/calyptia-fluentd/calyptia-fluentd.conf.org
-sudo cp ../files/fluentd/calyptia-fluentd.conf /etc/calyptia-fluentd/calyptia-fluentd.conf
-sudo cp ../files/fluentd/calyptia-fluent.service /usr/lib/systemd/system/calyptia-fluent.service
+sudo cp ../files/netdata/netdata.conf /etc/netdata/netdata.conf
+
+# restart service
+
+sudo systemctl restart nginx.service
+sudo systemctl restart mysqld.service
+
 # setup slack notify
 install_slackcat
