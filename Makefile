@@ -5,12 +5,13 @@ DB_USER:=
 DB_PASS:=
 DB_NAME:=
 RUBY_SERV:=
+PROJECT_ROOT:=/home/isucon
 BENCH_CMD:=./bench -all-addresses 127.0.0.11 -target 127.0.0.11:443 -tls -jia-service-url http://127.0.0.1:4999 > /var/log/isucon/my-bench.txt
 
 MYSQL_CMD:=mysql -h$(DB_HOST) -P$(DB_PORT) -u$(DB_USER) -p$(DB_PASS) $(DB_NAME)
 
 NGX_LOG:=/var/log/isucon/access.log
-MYSQL_LOG:=/var/log/slow.log
+MYSQL_LOG:=/var/log/isucon/slow.log
 
 
 
@@ -47,9 +48,21 @@ ruby-log:
 nginx-log:
 	sudo cat $(NGX_LOG) alp ltsv | tee "./tools/alp.log"
 	./tools/send_text_slack.sh ./tools/alp.log
-	git commit --allow-empty -m "result: `cat ./tools/alp.log`"
+	cd $(PROJECT_ROOT); \
+	git add .; \
+	git commit --allow-empty -m "result: `cat ~/tools/alp.log`"
+	cd -
 
 slow-log:
 	sudo pt-query-digest $(MYSQL_LOG) | tee ./tools/slow.log
 	./tools/send_file_slack.sh ./tools/slow.log
-	git commit --allow-empty -m "result: `cat ./tools/slow.log`"
+	cd $(PROJECT_ROOT); \
+	git add .; \
+	git commit --allow-empty -m "result: `cat ~/tools/slow.log`"
+	cd -
+
+slow-on:
+	sudo mysql -e "set global slow_query_log_file = '$(MYSQL_LOG)'; set global long_query_time = 0; set global slow_query_log = ON;"
+
+slow-off:
+	sudo mysql -e "set global slow_query_log = OFF;"
