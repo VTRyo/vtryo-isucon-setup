@@ -33,7 +33,7 @@ function install_htop () {
 }
 
 function install_netdata() {
-  sudo apt install netdata
+  sudo apt install -y netdata
 }
 
 function set_git () {
