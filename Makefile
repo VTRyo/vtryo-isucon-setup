@@ -11,7 +11,7 @@ BENCH_CMD:=./bench -all-addresses 127.0.0.11 -target 127.0.0.11:443 -tls -jia-se
 MYSQL_CMD:=mysql -h$(DB_HOST) -P$(DB_PORT) -u$(DB_USER) -p$(DB_PASS) $(DB_NAME)
 
 NGX_LOG:=/var/log/isucon/access.log
-MYSQL_LOG:=/var/log/isucon/slow.log
+MYSQL_LOG:=/var/log/mysql/slow.log
 
 
 
