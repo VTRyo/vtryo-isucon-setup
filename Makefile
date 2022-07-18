@@ -46,7 +46,7 @@ ruby-log:
 	journalctl -f -xe -u $(RUBY_SERV)
 
 nginx-log:
-	sudo cat $(NGX_LOG) alp ltsv | tee "./tools/alp.log"
+	sudo cat $(NGX_LOG) | alp ltsv | tee "./tools/alp.log"
 	./tools/send_text_slack.sh ./tools/alp.log
 	cd $(PROJECT_ROOT); \
 	git add .; \
