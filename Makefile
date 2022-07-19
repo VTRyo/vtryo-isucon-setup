@@ -66,3 +66,6 @@ slow-on:
 
 slow-off:
 	sudo mysql -e "set global slow_query_log = OFF;"
+
+netdata:
+	echo "Open your browser -> http://`hostname -I`:19999"

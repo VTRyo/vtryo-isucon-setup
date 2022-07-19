@@ -64,8 +64,7 @@ source tools/.env
 
 # make directory
 sudo mkdir /var/log/isucon
-sudo touch /var/log/isucon/slow.log
-sudo chmod -R 755 /var/log/isucon/
+sudo chmod -R 766 /var/log/isucon/
 
 echo "==============================================="
 echo "Create Log output directory! -> /var/log/isucon"
