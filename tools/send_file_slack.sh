@@ -1,3 +1,3 @@
 #!/bin/bash
 
-slackcat --channel $SLACK_CHANNEL $1
+cat $1 | notify_slack -c $HOME/.notify_slack.toml

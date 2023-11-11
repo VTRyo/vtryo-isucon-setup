@@ -1,9 +1,11 @@
 #!/bin/bash
 
-function install_slackcat () {
-  curl -Lo slackcat https://github.com/bcicen/slackcat/releases/download/1.7.3/slackcat-1.7.3-$(uname -s)-amd64
-  sudo mv slackcat /usr/local/bin/
-  sudo chmod +x /usr/local/bin/slackcat
+# Slackの仕様変更に追従していないため利用不可。廃止
+
+function install_notify_slack () {
+  wget https://github.com/catatsuy/notify_slack/releases/download/v0.4.14/notify_slack-linux-amd64.tar.gz
+  tar zxvf notify_slack-linux-amd64.tar.gz
+  sudo mv notify_slack /usr/local/bin/
 }
 
 function install_alp () {
@@ -59,8 +61,15 @@ function set_netdata_conf () {
   sudo chown -R root:netdata /usr/share/netdata/ # permisson setting
 }
 
+function set_notify_slack_conf () {
+  sudo cp tools/files/notify_slack/notify_slack.conf $HOME/.notify_slack.conf
+}
+
 # read envrionment
 source tools/.env
+
+# install unzip
+sudo apt install unzip
 
 # make directory
 sudo mkdir /var/log/isucon
@@ -73,6 +82,7 @@ echo "==============================================="
 #update
 sudo apt-get update -y
 sudo apt-get remove -y nano
+sudo apt-get install lsb-core
 
 # install profiler
 install_alp
@@ -122,9 +132,10 @@ echo "restart services"
 echo "======================================="
 
 # setup slack notify
-install_slackcat
+install_notify_slack
+set_notify_slack_conf
 echo "======================================="
-echo "install slackcat!"
+echo "install notify_slack! and set config!"
 echo "======================================="
 
 echo "-- finish setup! --"

@@ -1,0 +1,7 @@
+[slack]
+url = "https://hooks.slack.com/services/**" # webhook url
+token = "xoxp-xxxxx" # bot token with files:write
+channel = "#isucon13"
+username = "isucon"
+icon_emoji = ":rocket:"
+interval = "1s"
