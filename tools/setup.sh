@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Slackの仕様変更に追従していないため利用不可。廃止
+# Slackの仕様変更に追従していないためslackcat利用不可。廃止
 
 function install_notify_slack () {
   wget https://github.com/catatsuy/notify_slack/releases/download/v0.4.14/notify_slack-linux-amd64.tar.gz
