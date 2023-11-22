@@ -97,11 +97,11 @@ echo "================================================="
 echo "install pt-query-digest! You can analyze slow.log"
 echo "================================================="
 
-install_netdata
-
-echo "===================================================="
-echo "install netdata! You can see the OS metrics visually"
-echo "===================================================="
+#install_netdata
+#
+#echo "===================================================="
+#echo "install netdata! You can see the OS metrics visually"
+#echo "===================================================="
 
 # setup config
 set_nginx_conf
@@ -116,13 +116,13 @@ echo "==================="
 echo "Copy mysqld config!"
 echo "==================="
 
-set_netdata_conf
+#set_netdata_conf
+#
+#echo "======================================================================="
+#echo "Copy netdata config! -> You can access Dashboad. http://`hostname -I`:19999"
+#echo "======================================================================="
 
-echo "======================================================================="
-echo "Copy netdata config! -> You can access Dashboad. http://`hostname -I`:19999"
-echo "======================================================================="
-
-# restart service
+restart service
 
 sudo systemctl restart nginx.service
 sudo systemctl restart mysqld.service
@@ -150,9 +150,9 @@ if [ ! -e  /etc/mysql/my.cnf ]; then
   echo "my.cnf, copy failed! 手動でコピーするなどで対応してください"
 fi
 
-if [ ! -e /etc/netdata/netdata.conf ]; then
-  echo "netdata.conf, copy failed! 手動でコピーするなどで対応してください"
-fi
+#if [ ! -e /etc/netdata/netdata.conf ]; then
+#  echo "netdata.conf, copy failed! 手動でコピーするなどで対応してください"
+#fi
 
 echo "End file check."
 
